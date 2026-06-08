@@ -6,7 +6,10 @@ from pptx.enum.text import PP_ALIGN
 from pptx.util import Inches, Pt
 
 
-OUTPUT_PATH = Path.home() / "Desktop" / "my_project.pptx"
+OUTPUT_PATHS = (
+    Path.home() / "Desktop" / "my_project.pptx",
+    Path(__file__).resolve().parent / "my_project.pptx",
+)
 
 
 def set_text(frame, text, font_size=24, bold=False, color=RGBColor(255, 255, 255)):
@@ -75,7 +78,7 @@ def add_footer(slide, number):
     footer.text_frame.paragraphs[0].alignment = PP_ALIGN.RIGHT
 
 
-def build_presentation(output_path=OUTPUT_PATH):
+def build_presentation(output_paths=OUTPUT_PATHS):
     prs = Presentation()
     prs.slide_width = Inches(13.333)
     prs.slide_height = Inches(7.5)
@@ -159,11 +162,15 @@ def build_presentation(output_path=OUTPUT_PATH):
 
         add_footer(slide, index)
 
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-    prs.save(output_path)
-    return output_path
+    saved_paths = []
+    for output_path in output_paths:
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        prs.save(output_path)
+        saved_paths.append(output_path)
+
+    return saved_paths
 
 
 if __name__ == "__main__":
-    saved_path = build_presentation()
-    print(f"Presentation saved to: {saved_path}")
+    for saved_path in build_presentation():
+        print(f"Presentation saved to: {saved_path}")
