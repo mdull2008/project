@@ -27,8 +27,8 @@ WHITE = RGBColor(255, 255, 255)
 LIGHT_BG = RGBColor(246, 248, 244)
 MUTED_TEXT = RGBColor(92, 103, 95)
 
-FONT = "Onest"
-FALLBACK_FONT = "Arial"
+FONT = "Arial"
+TOTAL_SLIDES = 10
 
 
 def apply_background(slide):
@@ -111,7 +111,7 @@ def add_header(slide, title, section, number, timing):
     add_text(slide, Inches(3.0), Inches(0.69), Inches(7.8), Inches(0.52), title, 24, DARK_GREEN, True)
     add_rect(slide, Inches(0.55), Inches(1.28), Inches(12.2), Inches(0.035), GREEN)
     add_text(slide, Inches(10.35), Inches(0.45), Inches(2.4), Inches(0.34), timing, 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
-    add_text(slide, Inches(12.05), Inches(6.95), Inches(0.7), Inches(0.25), f"{number}/4", 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
+    add_text(slide, Inches(12.05), Inches(6.95), Inches(0.7), Inches(0.25), f"{number}/{TOTAL_SLIDES}", 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
 
 
 def add_card(slide, left, top, width, height, title, body, accent=GREEN):
@@ -178,49 +178,176 @@ def add_title_slide(prs):
         size=12,
         color=MUTED_TEXT,
     )
-    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), "1/4", 10, WHITE, align=PP_ALIGN.RIGHT)
+    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"1/{TOTAL_SLIDES}", 10, WHITE, align=PP_ALIGN.RIGHT)
 
 
-def add_research_frame_slide(prs):
+def add_intro_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     apply_background(slide)
-    add_header(slide, "Исследовательская рамка", "Тема, материал и методика", 2, "1:00–2:30")
+    add_header(slide, "Введение", "Актуальность и объект исследования", 2, "0:30–1:15")
+
+    add_rect(slide, Inches(0.75), Inches(1.65), Inches(7.15), Inches(4.75), WHITE)
+    add_text(slide, Inches(1.08), Inches(1.95), Inches(6.3), Inches(0.4), "Почему тема важна", 20, DARK_GREEN, True)
+    add_bullets(
+        slide,
+        Inches(1.08),
+        Inches(2.55),
+        Inches(6.25),
+        Inches(2.6),
+        [
+            "Санкт-Петербург воспринимается через сеть городских названий: улиц, площадей, районов, станций метро.",
+            "Один объект может иметь официальное, разговорное и историческое имя.",
+            "Для лингвистики важно понять, какие названия реально живут в речи, а какие остаются культурной отсылкой.",
+        ],
+        size=17,
+    )
+    add_text(slide, Inches(1.1), Inches(5.65), Inches(6.35), Inches(0.35), "Проблемный вопрос", 16, ORANGE, True)
+    add_text(slide, Inches(1.1), Inches(5.98), Inches(6.35), Inches(0.35), "Почему одни говорят «Питер» и «Лиговка», а другие — «Санкт-Петербург» и «Лиговский проспект»?", 14, BLACK)
+
+    add_rect(slide, Inches(8.25), Inches(1.65), Inches(4.25), Inches(4.75), DARK_GREEN)
+    add_text(slide, Inches(8.65), Inches(2.0), Inches(3.45), Inches(0.35), "Объект", 18, WHITE, True)
+    add_text(slide, Inches(8.65), Inches(2.45), Inches(3.45), Inches(0.85), "топонимическая лексика в речи носителей русского языка", 16, WHITE)
+    add_rect(slide, Inches(8.65), Inches(3.55), Inches(3.35), Inches(0.05), LIGHT_ORANGE)
+    add_text(slide, Inches(8.65), Inches(3.9), Inches(3.45), Inches(0.35), "Предмет", 18, WHITE, True)
+    add_text(slide, Inches(8.65), Inches(4.35), Inches(3.45), Inches(1.0), "включение петербургских топонимов в активный и пассивный компоненты лексикона", 16, WHITE)
+
+
+def add_goal_tasks_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+    add_header(slide, "Цель, задачи и гипотеза", "Логика исследования", 3, "1:15–2:00")
 
     add_card(
         slide,
         Inches(0.75),
-        Inches(1.75),
-        Inches(3.7),
-        Inches(1.55),
+        Inches(1.65),
+        Inches(5.35),
+        Inches(1.15),
         "Цель",
         "Описать, как петербургские топонимы представлены в лексиконе современных носителей русского языка.",
     )
     add_card(
         slide,
-        Inches(4.8),
-        Inches(1.75),
+        Inches(6.45),
+        Inches(1.65),
+        Inches(5.35),
+        Inches(1.15),
+        "Гипотеза",
+        "Топонимы Санкт-Петербурга образуют многослойную систему: официальные, разговорные и исторические названия распределены по разным сферам общения.",
+        accent=ORANGE,
+    )
+
+    add_rect(slide, Inches(0.75), Inches(3.25), Inches(11.05), Inches(2.6), WHITE)
+    add_text(slide, Inches(1.08), Inches(3.55), Inches(10.3), Inches(0.35), "Основные задачи", 19, DARK_GREEN, True)
+    add_bullets(
+        slide,
+        Inches(1.08),
+        Inches(4.05),
+        Inches(10.1),
+        Inches(1.3),
+        [
+            "рассмотреть подходы к изучению топонимов в отечественной лингвистике;",
+            "обосновать методику эмпирического исследования;",
+            "провести анкетирование и интерпретировать полученные данные;",
+            "сформулировать выводы о связи топонимов с возрастом, опытом города и сферой общения.",
+        ],
+        size=15,
+    )
+
+
+def add_theory_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+    add_header(slide, "Теоретическая база", "Ключевые понятия", 4, "2:00–2:45")
+
+    add_card(
+        slide,
+        Inches(0.75),
+        Inches(1.65),
+        Inches(3.65),
+        Inches(2.0),
+        "Урбаноним",
+        "Название внутригородского объекта: улицы, площади, моста, станции метро или района.",
+        accent=GREEN,
+    )
+    add_card(
+        slide,
+        Inches(4.85),
+        Inches(1.65),
+        Inches(3.65),
+        Inches(2.0),
+        "Активный топонимикон",
+        "Названия, которые человек спонтанно употребляет в речи и переписке.",
+        accent=MID_GREEN,
+    )
+    add_card(
+        slide,
+        Inches(8.95),
+        Inches(1.65),
+        Inches(3.65),
+        Inches(2.0),
+        "Пассивный топонимикон",
+        "Названия, которые человек узнаёт, но почти не использует самостоятельно.",
+        accent=ORANGE,
+    )
+
+    add_rect(slide, Inches(0.75), Inches(4.15), Inches(11.85), Inches(1.65), WHITE)
+    add_text(slide, Inches(1.05), Inches(4.43), Inches(10.9), Inches(0.35), "Научная опора", 18, DARK_GREEN, True)
+    add_bullets(
+        slide,
+        Inches(1.05),
+        Inches(4.88),
+        Inches(10.8),
+        Inches(0.75),
+        [
+            "А.В. Суперанская: имена собственные включены в общую систему языка и получают коннотации.",
+            "Е.В. Иванцова: количество узнаваемых топонимов часто больше числа активно используемых.",
+            "О.Н. Минюшова: топонимы могут быть логоэпистемами — носителями культурно-исторического знания.",
+        ],
+        size=13,
+    )
+
+
+def add_method_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+    add_header(slide, "Методика и материал", "Как собирались данные", 5, "2:45–3:30")
+
+    add_card(
+        slide,
+        Inches(0.75),
+        Inches(1.65),
         Inches(3.7),
         Inches(1.55),
-        "Гипотеза",
-        "Официальные, разговорные и исторические названия работают в разных функциональных зонах.",
+        "Выборка",
+        "54 полные анкеты; доминируют респонденты 18–25 лет, в основном молодые жители и приезжие студенты.",
+    )
+    add_card(
+        slide,
+        Inches(4.8),
+        Inches(1.65),
+        Inches(3.7),
+        Inches(1.55),
+        "Материал анкеты",
+        "12 топонимов: Эрмитаж, Невский, Купчино, Лиговка, Питер, Ленинград и др.",
         accent=ORANGE,
     )
     add_card(
         slide,
         Inches(8.85),
-        Inches(1.75),
+        Inches(1.65),
         Inches(3.7),
         Inches(1.55),
-        "Материал",
-        "Онлайн-анкета Google Forms: 54 полных ответа, 12 топонимов, множественный выбор контекстов.",
+        "Формат",
+        "Множественный выбор сфер употребления для каждого названия.",
     )
 
-    add_rect(slide, Inches(0.75), Inches(3.85), Inches(11.8), Inches(2.4), WHITE)
-    add_text(slide, Inches(1.05), Inches(4.1), Inches(4.7), Inches(0.35), "Как фиксировалось употребление", 18, DARK_GREEN, True)
+    add_rect(slide, Inches(0.75), Inches(3.75), Inches(11.8), Inches(2.25), WHITE)
+    add_text(slide, Inches(1.05), Inches(4.0), Inches(4.7), Inches(0.35), "Контексты употребления", 18, DARK_GREEN, True)
     add_bullets(
         slide,
         Inches(1.05),
-        Inches(4.58),
+        Inches(4.48),
         Inches(5.25),
         Inches(1.15),
         [
@@ -232,32 +359,32 @@ def add_research_frame_slide(prs):
         ],
         size=14,
     )
-    add_text(slide, Inches(7.0), Inches(4.08), Inches(4.8), Inches(0.35), "Фокус интерпретации", 18, DARK_GREEN, True)
+    add_text(slide, Inches(7.0), Inches(4.0), Inches(4.8), Inches(0.35), "Ограничение", 18, DARK_GREEN, True)
     add_text(
         slide,
         Inches(7.0),
-        Inches(4.58),
+        Inches(4.48),
         Inches(4.85),
         Inches(1.15),
-        "Выборка в основном отражает речевую практику молодых городских носителей и приезжих студентов, поэтому результаты читаются как модель молодежного топонимикона.",
+        "Выводы не описывают всех петербуржцев, а прежде всего показывают речевую практику молодой городской аудитории.",
         16,
         BLACK,
     )
-    add_rect(slide, Inches(0.75), Inches(6.55), Inches(7.2), Inches(0.18), GREEN)
-    add_rect(slide, Inches(7.95), Inches(6.55), Inches(4.6), Inches(0.18), ORANGE)
+    add_rect(slide, Inches(0.75), Inches(6.35), Inches(7.2), Inches(0.18), GREEN)
+    add_rect(slide, Inches(7.95), Inches(6.35), Inches(4.6), Inches(0.18), ORANGE)
 
 
-def add_results_slide(prs):
+def add_results_core_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     apply_background(slide)
-    add_header(slide, "Ключевые результаты анкетирования", "N = 54 · проценты от числа респондентов", 3, "2:30–5:00")
+    add_header(slide, "Результаты: активное ядро", "N = 54 · проценты от числа респондентов", 6, "3:30–4:30")
 
     add_rect(slide, Inches(0.72), Inches(1.65), Inches(7.0), Inches(4.8), WHITE)
-    add_text(slide, Inches(1.0), Inches(1.95), Inches(6.3), Inches(0.35), "Активность и пассивность топонимов", 18, DARK_GREEN, True)
+    add_text(slide, Inches(1.0), Inches(1.95), Inches(6.3), Inches(0.35), "Самые активные названия", 18, DARK_GREEN, True)
     add_metric(slide, Inches(1.0), Inches(2.55), Inches(5.8), "Питер · общение с друзьями", 92.6, GREEN, "ядро неформального городского лексикона")
     add_metric(slide, Inches(1.0), Inches(3.45), Inches(5.8), "Невский · общение с друзьями", 83.3, GREEN, "универсальный центральный навигатор")
-    add_metric(slide, Inches(1.0), Inches(4.35), Inches(5.8), "Ленинград · «знаю, но не использую»", 51.9, ORANGE, "историческое название у молодёжи уходит в пассив")
-    add_metric(slide, Inches(1.0), Inches(5.25), Inches(5.8), "Рыбацкое · «знаю, но не использую»", 44.4, ORANGE, "локальная периферия без личного маршрута")
+    add_metric(slide, Inches(1.0), Inches(4.35), Inches(5.8), "Питер · соцсети и мессенджеры", 79.6, MID_GREEN, "цифровая коммуникация закрепляет разговорную форму")
+    add_metric(slide, Inches(1.0), Inches(5.25), Inches(5.8), "Невский · работа / учёба", 63.0, MID_GREEN, "название проходит и через более формальные сферы")
 
     add_rect(slide, Inches(8.05), Inches(1.65), Inches(4.55), Inches(4.8), DARK_GREEN)
     add_text(slide, Inches(8.45), Inches(1.98), Inches(3.75), Inches(0.38), "Что важно проговорить", 18, WHITE, True)
@@ -268,9 +395,9 @@ def add_results_slide(prs):
         Inches(3.75),
         Inches(3.2),
         [
-            "«Питер» и «Невский» проходят через почти все сферы общения.",
-            "Культурные символы известны, но не всегда нужны в ежедневной навигации.",
-            "Разговорные и районные названия зависят от маршрутов, возраста и круга общения.",
+            "«Питер» — не просто сокращение, а эмоционально нейтральное имя «своего» города.",
+            "«Невский» совмещает разговорность и официальную узнаваемость.",
+            "Активное ядро связано с ежедневными маршрутами и частой коммуникацией.",
         ],
         size=15,
         color=WHITE,
@@ -280,35 +407,101 @@ def add_results_slide(prs):
     add_rect(slide, Inches(11.15), Inches(6.1), Inches(1.45), Inches(0.18), ORANGE)
 
 
+def add_results_passive_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+    add_header(slide, "Результаты: пассив и различия", "Что знают, но не всегда используют", 7, "4:30–5:30")
+
+    add_rect(slide, Inches(0.72), Inches(1.65), Inches(6.15), Inches(4.7), WHITE)
+    add_text(slide, Inches(1.0), Inches(1.95), Inches(5.55), Inches(0.35), "Пассивный запас шире активного", 18, DARK_GREEN, True)
+    add_metric(slide, Inches(1.0), Inches(2.55), Inches(5.2), "Ленинград · «знаю, но не использую»", 51.9, ORANGE, "для молодёжи — исторический и поколенческий маркер")
+    add_metric(slide, Inches(1.0), Inches(3.45), Inches(5.2), "Рыбацкое · «знаю, но не использую»", 44.4, ORANGE, "название известно, но часто не включено в личный маршрут")
+    add_metric(slide, Inches(1.0), Inches(4.35), Inches(5.2), "Пять углов · пассивное знание", 22.2, ORANGE, "локальное название с низкой активностью")
+    add_metric(slide, Inches(1.0), Inches(5.25), Inches(5.2), "Лиговка · незнание", 20.4, ORANGE, "показывает зависимость от опыта района")
+
+    add_rect(slide, Inches(7.25), Inches(1.65), Inches(5.15), Inches(4.7), DARK_GREEN)
+    add_text(slide, Inches(7.65), Inches(1.98), Inches(4.35), Inches(0.35), "Интерпретация", 18, WHITE, True)
+    add_bullets(
+        slide,
+        Inches(7.65),
+        Inches(2.55),
+        Inches(4.2),
+        Inches(2.55),
+        [
+            "Пассивное знание не равно незнанию: название может быть культурно знакомым, но не речевым.",
+            "Стаж проживания расширяет активный запас локальных названий.",
+            "У старших горожан «Ленинград» и районные названия чаще остаются живыми словами.",
+        ],
+        size=15,
+        color=WHITE,
+        marker_color=LIGHT_ORANGE,
+    )
+    add_text(slide, Inches(7.65), Inches(5.62), Inches(4.2), Inches(0.42), "Главный вывод: топонимикон зависит от опыта города.", 15, WHITE, True)
+
+
 def add_conclusion_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     apply_background(slide)
-    add_header(slide, "Вывод: лексикон горожанина многослоен", "Итоговая модель и перспективы", 4, "5:00–7:00")
+    add_header(slide, "Заключение", "Итоги курсовой работы", 8, "5:30–6:20")
 
-    add_rect(slide, Inches(0.75), Inches(1.68), Inches(3.6), Inches(3.55), GREEN)
-    add_rect(slide, Inches(4.55), Inches(1.68), Inches(3.6), Inches(3.55), MID_GREEN)
-    add_rect(slide, Inches(8.35), Inches(1.68), Inches(3.6), Inches(3.55), ORANGE)
+    add_rect(slide, Inches(0.75), Inches(1.65), Inches(3.55), Inches(3.25), GREEN)
+    add_rect(slide, Inches(4.55), Inches(1.65), Inches(3.55), Inches(3.25), MID_GREEN)
+    add_rect(slide, Inches(8.35), Inches(1.65), Inches(3.55), Inches(3.25), ORANGE)
 
-    add_text(slide, Inches(1.05), Inches(2.0), Inches(3.0), Inches(0.45), "1. Официальное", 20, WHITE, True)
-    add_text(slide, Inches(1.05), Inches(2.62), Inches(3.0), Inches(1.7), "Дворцовая площадь, Эрмитаж, Исаакиевский собор: высокая узнаваемость и культурный слой.", 17, WHITE)
-    add_text(slide, Inches(4.85), Inches(2.0), Inches(3.0), Inches(0.45), "2. Разговорное", 20, WHITE, True)
-    add_text(slide, Inches(4.85), Inches(2.62), Inches(3.0), Inches(1.7), "Питер, Невский, Лиговка: активная навигация, друзья, соцсети, повседневные маршруты.", 17, WHITE)
-    add_text(slide, Inches(8.65), Inches(2.0), Inches(3.0), Inches(0.45), "3. Историческое", 20, WHITE, True)
-    add_text(slide, Inches(8.65), Inches(2.62), Inches(3.0), Inches(1.7), "Ленинград: почти всем знаком, но у молодых респондентов чаще находится в пассиве.", 17, WHITE)
+    add_text(slide, Inches(1.05), Inches(2.0), Inches(2.95), Inches(0.45), "Официальное", 20, WHITE, True)
+    add_text(slide, Inches(1.05), Inches(2.62), Inches(2.95), Inches(1.55), "Дворцовая площадь, Эрмитаж, Исаакиевский собор: высокая узнаваемость и культурный слой.", 16, WHITE)
+    add_text(slide, Inches(4.85), Inches(2.0), Inches(2.95), Inches(0.45), "Разговорное", 20, WHITE, True)
+    add_text(slide, Inches(4.85), Inches(2.62), Inches(2.95), Inches(1.55), "Питер, Невский, Лиговка: повседневная навигация, друзья, соцсети, маршруты.", 16, WHITE)
+    add_text(slide, Inches(8.65), Inches(2.0), Inches(2.95), Inches(0.45), "Историческое", 20, WHITE, True)
+    add_text(slide, Inches(8.65), Inches(2.62), Inches(2.95), Inches(1.55), "Ленинград: знаком почти всем, но у молодых респондентов чаще находится в пассиве.", 16, WHITE)
 
-    add_rect(slide, Inches(0.75), Inches(5.65), Inches(11.2), Inches(0.95), WHITE)
-    add_text(slide, Inches(1.05), Inches(5.89), Inches(10.55), Inches(0.4), "Защитный тезис", 17, DARK_GREEN, True)
+    add_rect(slide, Inches(0.75), Inches(5.35), Inches(11.15), Inches(1.05), WHITE)
+    add_text(slide, Inches(1.05), Inches(5.58), Inches(2.05), Inches(0.4), "Итог", 18, DARK_GREEN, True)
     add_text(
         slide,
-        Inches(3.05),
-        Inches(5.88),
-        Inches(8.55),
-        Inches(0.46),
+        Inches(2.1),
+        Inches(5.52),
+        Inches(9.45),
+        Inches(0.55),
         "Границы между активным и пассивным топонимиконом задаются не грамматикой, а возрастом, опытом города, кругом общения и цифровыми практиками.",
         15,
         BLACK,
     )
-    add_text(slide, Inches(0.78), Inches(6.78), Inches(10.0), Inches(0.28), "Дальше: расширить выборку, добавить старшее поколение и сравнить Петербург с другими миллионниками.", 11, MUTED_TEXT)
+    add_text(slide, Inches(0.78), Inches(6.72), Inches(10.0), Inches(0.28), "Перспектива: расширить выборку, добавить старшее поколение и сравнить Петербург с другими миллионниками.", 11, MUTED_TEXT)
+
+
+def add_sources_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+    add_header(slide, "Источники литературы", "Основные работы, использованные в курсовой", 9, "6:20–6:45")
+
+    add_rect(slide, Inches(0.75), Inches(1.65), Inches(11.5), Inches(4.9), WHITE)
+    sources = [
+        "Агеева Р.А. Ономастический код культуры. М.: Наука, 1990.",
+        "Иванцова Е.В. Топонимия в идиолексиконе диалектоносителя // Вестник ЧелГУ. 2007. № 17.",
+        "Кузнецова А.В., Петрулевич И.А. Топонимика как инструмент конструирования городской идентичности // Социолингвистика. 2021. № 2.",
+        "Минюшова О.Н. Топонимы-логоэпистемы в русской ономастике. Казань, 2006.",
+        "Никонов В.А. Введение в топонимику. М.: Наука, 1965.",
+        "Суперанская А.В. Общая теория имён собственных. М.: Наука, 1973.",
+        "Зыкова И.В. Полевой принцип описания значения топонима // Вопросы лингвистики. 2022. № 4.",
+        "Анкета «Топонимы Санкт-Петербурга в лексиконе носителя русского языка», 2026.",
+    ]
+    add_bullets(slide, Inches(1.08), Inches(1.98), Inches(10.85), Inches(4.1), sources, size=12, marker_color=ORANGE)
+
+
+def add_thanks_slide(prs):
+    slide = prs.slides.add_slide(prs.slide_layouts[6])
+    apply_background(slide)
+
+    add_rect(slide, Inches(0), Inches(0), SLIDE_W, SLIDE_H, DARK_GREEN)
+    add_rect(slide, Inches(0), Inches(0), Inches(4.15), SLIDE_H, GREEN)
+    add_rect(slide, Inches(4.15), Inches(0), Inches(2.05), Inches(3.75), MID_GREEN)
+    add_rect(slide, Inches(4.15), Inches(3.75), Inches(2.05), Inches(3.75), ORANGE)
+    add_logo(slide)
+    add_text(slide, Inches(6.8), Inches(2.35), Inches(5.3), Inches(0.85), "Спасибо за внимание!", 38, WHITE, True)
+    add_text(slide, Inches(6.85), Inches(3.35), Inches(4.95), Inches(0.55), "Готов ответить на вопросы", 22, WHITE)
+    add_text(slide, Inches(6.85), Inches(5.55), Inches(5.2), Inches(0.35), "Курсовая работа · Топонимы Санкт-Петербурга", 12, RGBColor(223, 237, 222))
+    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"10/{TOTAL_SLIDES}", 10, WHITE, align=PP_ALIGN.RIGHT)
 
 
 def build_presentation(output_paths=OUTPUT_PATHS):
@@ -317,9 +510,15 @@ def build_presentation(output_paths=OUTPUT_PATHS):
     prs.slide_height = SLIDE_H
 
     add_title_slide(prs)
-    add_research_frame_slide(prs)
-    add_results_slide(prs)
+    add_intro_slide(prs)
+    add_goal_tasks_slide(prs)
+    add_theory_slide(prs)
+    add_method_slide(prs)
+    add_results_core_slide(prs)
+    add_results_passive_slide(prs)
     add_conclusion_slide(prs)
+    add_sources_slide(prs)
+    add_thanks_slide(prs)
 
     saved_paths = []
     for output_path in output_paths:
