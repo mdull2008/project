@@ -8,7 +8,6 @@ from pptx.util import Inches, Pt
 
 
 ROOT = Path(__file__).resolve().parent
-LOGO_PATH = ROOT / "assets" / "spbstu_logo_02.png"
 OUTPUT_PATHS = (
     Path.home() / "Desktop" / "my_project.pptx",
     ROOT / "my_project.pptx",
@@ -17,15 +16,15 @@ OUTPUT_PATHS = (
 SLIDE_W = Inches(13.333)
 SLIDE_H = Inches(7.5)
 
-GREEN = RGBColor(58, 170, 53)      # SPbPU primary green, HEX #3AA935
-DARK_GREEN = RGBColor(36, 65, 40)  # SPbPU green gradient
-MID_GREEN = RGBColor(86, 151, 91)
-ORANGE = RGBColor(219, 73, 40)     # SPbPU orange gradient, humanities pair
-LIGHT_ORANGE = RGBColor(243, 152, 105)
+GREEN = RGBColor(96, 166, 120)
+DARK_GREEN = RGBColor(45, 86, 68)
+MID_GREEN = RGBColor(190, 222, 199)
+ORANGE = RGBColor(230, 145, 95)
+LIGHT_ORANGE = RGBColor(248, 220, 198)
 BLACK = RGBColor(0, 0, 0)
 WHITE = RGBColor(255, 255, 255)
-LIGHT_BG = RGBColor(246, 248, 244)
-MUTED_TEXT = RGBColor(92, 103, 95)
+LIGHT_BG = RGBColor(250, 248, 244)
+MUTED_TEXT = RGBColor(98, 98, 98)
 
 FONT = "Arial"
 TOTAL_SLIDES = 10
@@ -89,7 +88,7 @@ def add_bullets(slide, left, top, width, height, bullets, size=19, color=BLACK, 
         paragraph = frame.paragraphs[0] if index == 0 else frame.add_paragraph()
         paragraph.space_after = Pt(9)
         marker = paragraph.add_run()
-        marker.text = "■ "
+        marker.text = "• "
         style_run(marker, size=size, color=marker_color, bold=True)
         run = paragraph.add_run()
         run.text = bullet
@@ -98,18 +97,10 @@ def add_bullets(slide, left, top, width, height, bullets, size=19, color=BLACK, 
     return box
 
 
-def add_logo(slide):
-    if LOGO_PATH.exists():
-        slide.shapes.add_picture(str(LOGO_PATH), Inches(0.55), Inches(0.34), width=Inches(1.75))
-    else:
-        add_text(slide, Inches(0.55), Inches(0.36), Inches(2.2), Inches(0.35), "СПбПУ", 16, GREEN, True)
-
-
 def add_header(slide, title, section, number, timing):
-    add_logo(slide)
-    add_text(slide, Inches(3.0), Inches(0.35), Inches(6.8), Inches(0.34), section, 10, MUTED_TEXT)
-    add_text(slide, Inches(3.0), Inches(0.69), Inches(7.8), Inches(0.52), title, 24, DARK_GREEN, True)
-    add_rect(slide, Inches(0.55), Inches(1.28), Inches(12.2), Inches(0.035), GREEN)
+    add_text(slide, Inches(0.75), Inches(0.35), Inches(7.6), Inches(0.34), section, 10, MUTED_TEXT)
+    add_text(slide, Inches(0.75), Inches(0.69), Inches(8.75), Inches(0.52), title, 24, DARK_GREEN, True)
+    add_rect(slide, Inches(0.75), Inches(1.28), Inches(11.5), Inches(0.025), LIGHT_ORANGE)
     add_text(slide, Inches(10.35), Inches(0.45), Inches(2.4), Inches(0.34), timing, 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
     add_text(slide, Inches(12.05), Inches(6.95), Inches(0.7), Inches(0.25), f"{number}/{TOTAL_SLIDES}", 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
 
@@ -134,20 +125,17 @@ def add_title_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     apply_background(slide)
 
-    add_rect(slide, Inches(8.2), Inches(0), Inches(5.13), SLIDE_H, DARK_GREEN)
-    add_rect(slide, Inches(8.2), Inches(0), Inches(5.13), Inches(2.1), GREEN)
-    add_rect(slide, Inches(8.2), Inches(2.1), Inches(3.35), Inches(1.2), MID_GREEN)
-    add_rect(slide, Inches(11.55), Inches(2.1), Inches(1.78), Inches(1.2), LIGHT_ORANGE)
-    add_rect(slide, Inches(8.2), Inches(3.3), Inches(2.2), Inches(4.2), ORANGE)
-    add_rect(slide, Inches(10.4), Inches(3.3), Inches(2.93), Inches(4.2), DARK_GREEN)
+    add_rect(slide, Inches(0.0), Inches(0), SLIDE_W, Inches(0.22), LIGHT_ORANGE)
+    add_rect(slide, Inches(0.0), Inches(0.22), Inches(3.1), Inches(0.12), GREEN)
+    add_rect(slide, Inches(9.55), Inches(1.0), Inches(2.6), Inches(2.6), MID_GREEN, transparency=18)
+    add_rect(slide, Inches(10.5), Inches(4.55), Inches(1.6), Inches(1.6), LIGHT_ORANGE, transparency=12)
 
-    add_logo(slide)
-    add_text(slide, Inches(0.62), Inches(1.34), Inches(6.75), Inches(0.35), "Курсовая работа · выступление 5–7 минут", 14, MUTED_TEXT)
+    add_text(slide, Inches(0.75), Inches(1.2), Inches(6.75), Inches(0.35), "Курсовая работа · выступление 5–7 минут", 14, MUTED_TEXT)
     add_text(
         slide,
-        Inches(0.58),
-        Inches(1.9),
-        Inches(7.25),
+        Inches(0.72),
+        Inches(1.82),
+        Inches(8.05),
         Inches(1.65),
         "Топонимы Санкт-Петербурга\nв лексиконе носителя русского языка",
         34,
@@ -156,9 +144,9 @@ def add_title_slide(prs):
     )
     add_text(
         slide,
-        Inches(0.62),
+        Inches(0.75),
         Inches(3.9),
-        Inches(6.8),
+        Inches(7.55),
         Inches(0.65),
         "Как официальные, разговорные и исторические названия распределяются между активным и пассивным запасом речи",
         18,
@@ -166,9 +154,9 @@ def add_title_slide(prs):
     )
     add_multiline(
         slide,
-        Inches(0.62),
+        Inches(0.75),
         Inches(5.45),
-        Inches(6.4),
+        Inches(7.2),
         Inches(1.1),
         [
             "Гуманитарный институт · Высшая школа лингвистики и педагогики",
@@ -178,7 +166,7 @@ def add_title_slide(prs):
         size=12,
         color=MUTED_TEXT,
     )
-    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"1/{TOTAL_SLIDES}", 10, WHITE, align=PP_ALIGN.RIGHT)
+    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"1/{TOTAL_SLIDES}", 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
 
 
 def add_intro_slide(prs):
@@ -204,12 +192,13 @@ def add_intro_slide(prs):
     add_text(slide, Inches(1.1), Inches(5.65), Inches(6.35), Inches(0.35), "Проблемный вопрос", 16, ORANGE, True)
     add_text(slide, Inches(1.1), Inches(5.98), Inches(6.35), Inches(0.35), "Почему одни говорят «Питер» и «Лиговка», а другие — «Санкт-Петербург» и «Лиговский проспект»?", 14, BLACK)
 
-    add_rect(slide, Inches(8.25), Inches(1.65), Inches(4.25), Inches(4.75), DARK_GREEN)
-    add_text(slide, Inches(8.65), Inches(2.0), Inches(3.45), Inches(0.35), "Объект", 18, WHITE, True)
-    add_text(slide, Inches(8.65), Inches(2.45), Inches(3.45), Inches(0.85), "топонимическая лексика в речи носителей русского языка", 16, WHITE)
-    add_rect(slide, Inches(8.65), Inches(3.55), Inches(3.35), Inches(0.05), LIGHT_ORANGE)
-    add_text(slide, Inches(8.65), Inches(3.9), Inches(3.45), Inches(0.35), "Предмет", 18, WHITE, True)
-    add_text(slide, Inches(8.65), Inches(4.35), Inches(3.45), Inches(1.0), "включение петербургских топонимов в активный и пассивный компоненты лексикона", 16, WHITE)
+    add_rect(slide, Inches(8.25), Inches(1.65), Inches(4.25), Inches(4.75), WHITE)
+    add_rect(slide, Inches(8.25), Inches(1.65), Inches(4.25), Inches(0.14), LIGHT_ORANGE)
+    add_text(slide, Inches(8.65), Inches(2.0), Inches(3.45), Inches(0.35), "Объект", 18, DARK_GREEN, True)
+    add_text(slide, Inches(8.65), Inches(2.45), Inches(3.45), Inches(0.85), "топонимическая лексика в речи носителей русского языка", 16, BLACK)
+    add_rect(slide, Inches(8.65), Inches(3.55), Inches(3.35), Inches(0.03), MID_GREEN)
+    add_text(slide, Inches(8.65), Inches(3.9), Inches(3.45), Inches(0.35), "Предмет", 18, DARK_GREEN, True)
+    add_text(slide, Inches(8.65), Inches(4.35), Inches(3.45), Inches(1.0), "включение петербургских топонимов в активный и пассивный компоненты лексикона", 16, BLACK)
 
 
 def add_goal_tasks_slide(prs):
@@ -386,8 +375,9 @@ def add_results_core_slide(prs):
     add_metric(slide, Inches(1.0), Inches(4.35), Inches(5.8), "Питер · соцсети и мессенджеры", 79.6, MID_GREEN, "цифровая коммуникация закрепляет разговорную форму")
     add_metric(slide, Inches(1.0), Inches(5.25), Inches(5.8), "Невский · работа / учёба", 63.0, MID_GREEN, "название проходит и через более формальные сферы")
 
-    add_rect(slide, Inches(8.05), Inches(1.65), Inches(4.55), Inches(4.8), DARK_GREEN)
-    add_text(slide, Inches(8.45), Inches(1.98), Inches(3.75), Inches(0.38), "Что важно проговорить", 18, WHITE, True)
+    add_rect(slide, Inches(8.05), Inches(1.65), Inches(4.55), Inches(4.8), WHITE)
+    add_rect(slide, Inches(8.05), Inches(1.65), Inches(4.55), Inches(0.14), MID_GREEN)
+    add_text(slide, Inches(8.45), Inches(1.98), Inches(3.75), Inches(0.38), "Что важно проговорить", 18, DARK_GREEN, True)
     add_bullets(
         slide,
         Inches(8.45),
@@ -400,11 +390,10 @@ def add_results_core_slide(prs):
             "Активное ядро связано с ежедневными маршрутами и частой коммуникацией.",
         ],
         size=15,
-        color=WHITE,
-        marker_color=LIGHT_ORANGE,
+        color=BLACK,
+        marker_color=ORANGE,
     )
-    add_rect(slide, Inches(8.05), Inches(6.1), Inches(3.1), Inches(0.18), GREEN)
-    add_rect(slide, Inches(11.15), Inches(6.1), Inches(1.45), Inches(0.18), ORANGE)
+    add_rect(slide, Inches(8.05), Inches(6.1), Inches(4.55), Inches(0.08), LIGHT_ORANGE)
 
 
 def add_results_passive_slide(prs):
@@ -419,8 +408,9 @@ def add_results_passive_slide(prs):
     add_metric(slide, Inches(1.0), Inches(4.35), Inches(5.2), "Пять углов · пассивное знание", 22.2, ORANGE, "локальное название с низкой активностью")
     add_metric(slide, Inches(1.0), Inches(5.25), Inches(5.2), "Лиговка · незнание", 20.4, ORANGE, "показывает зависимость от опыта района")
 
-    add_rect(slide, Inches(7.25), Inches(1.65), Inches(5.15), Inches(4.7), DARK_GREEN)
-    add_text(slide, Inches(7.65), Inches(1.98), Inches(4.35), Inches(0.35), "Интерпретация", 18, WHITE, True)
+    add_rect(slide, Inches(7.25), Inches(1.65), Inches(5.15), Inches(4.7), WHITE)
+    add_rect(slide, Inches(7.25), Inches(1.65), Inches(5.15), Inches(0.14), LIGHT_ORANGE)
+    add_text(slide, Inches(7.65), Inches(1.98), Inches(4.35), Inches(0.35), "Интерпретация", 18, DARK_GREEN, True)
     add_bullets(
         slide,
         Inches(7.65),
@@ -433,10 +423,10 @@ def add_results_passive_slide(prs):
             "У старших горожан «Ленинград» и районные названия чаще остаются живыми словами.",
         ],
         size=15,
-        color=WHITE,
-        marker_color=LIGHT_ORANGE,
+        color=BLACK,
+        marker_color=ORANGE,
     )
-    add_text(slide, Inches(7.65), Inches(5.62), Inches(4.2), Inches(0.42), "Главный вывод: топонимикон зависит от опыта города.", 15, WHITE, True)
+    add_text(slide, Inches(7.65), Inches(5.62), Inches(4.2), Inches(0.42), "Главный вывод: топонимикон зависит от опыта города.", 15, DARK_GREEN, True)
 
 
 def add_conclusion_slide(prs):
@@ -444,16 +434,19 @@ def add_conclusion_slide(prs):
     apply_background(slide)
     add_header(slide, "Заключение", "Итоги курсовой работы", 8, "5:30–6:20")
 
-    add_rect(slide, Inches(0.75), Inches(1.65), Inches(3.55), Inches(3.25), GREEN)
-    add_rect(slide, Inches(4.55), Inches(1.65), Inches(3.55), Inches(3.25), MID_GREEN)
-    add_rect(slide, Inches(8.35), Inches(1.65), Inches(3.55), Inches(3.25), ORANGE)
+    add_rect(slide, Inches(0.75), Inches(1.65), Inches(3.55), Inches(3.25), WHITE)
+    add_rect(slide, Inches(4.55), Inches(1.65), Inches(3.55), Inches(3.25), WHITE)
+    add_rect(slide, Inches(8.35), Inches(1.65), Inches(3.55), Inches(3.25), WHITE)
+    add_rect(slide, Inches(0.75), Inches(1.65), Inches(3.55), Inches(0.14), MID_GREEN)
+    add_rect(slide, Inches(4.55), Inches(1.65), Inches(3.55), Inches(0.14), GREEN)
+    add_rect(slide, Inches(8.35), Inches(1.65), Inches(3.55), Inches(0.14), LIGHT_ORANGE)
 
-    add_text(slide, Inches(1.05), Inches(2.0), Inches(2.95), Inches(0.45), "Официальное", 20, WHITE, True)
-    add_text(slide, Inches(1.05), Inches(2.62), Inches(2.95), Inches(1.55), "Дворцовая площадь, Эрмитаж, Исаакиевский собор: высокая узнаваемость и культурный слой.", 16, WHITE)
-    add_text(slide, Inches(4.85), Inches(2.0), Inches(2.95), Inches(0.45), "Разговорное", 20, WHITE, True)
-    add_text(slide, Inches(4.85), Inches(2.62), Inches(2.95), Inches(1.55), "Питер, Невский, Лиговка: повседневная навигация, друзья, соцсети, маршруты.", 16, WHITE)
-    add_text(slide, Inches(8.65), Inches(2.0), Inches(2.95), Inches(0.45), "Историческое", 20, WHITE, True)
-    add_text(slide, Inches(8.65), Inches(2.62), Inches(2.95), Inches(1.55), "Ленинград: знаком почти всем, но у молодых респондентов чаще находится в пассиве.", 16, WHITE)
+    add_text(slide, Inches(1.05), Inches(2.0), Inches(2.95), Inches(0.45), "Официальное", 20, DARK_GREEN, True)
+    add_text(slide, Inches(1.05), Inches(2.62), Inches(2.95), Inches(1.55), "Дворцовая площадь, Эрмитаж, Исаакиевский собор: высокая узнаваемость и культурный слой.", 16, BLACK)
+    add_text(slide, Inches(4.85), Inches(2.0), Inches(2.95), Inches(0.45), "Разговорное", 20, DARK_GREEN, True)
+    add_text(slide, Inches(4.85), Inches(2.62), Inches(2.95), Inches(1.55), "Питер, Невский, Лиговка: повседневная навигация, друзья, соцсети, маршруты.", 16, BLACK)
+    add_text(slide, Inches(8.65), Inches(2.0), Inches(2.95), Inches(0.45), "Историческое", 20, DARK_GREEN, True)
+    add_text(slide, Inches(8.65), Inches(2.62), Inches(2.95), Inches(1.55), "Ленинград: знаком почти всем, но у молодых респондентов чаще находится в пассиве.", 16, BLACK)
 
     add_rect(slide, Inches(0.75), Inches(5.35), Inches(11.15), Inches(1.05), WHITE)
     add_text(slide, Inches(1.05), Inches(5.58), Inches(2.05), Inches(0.4), "Итог", 18, DARK_GREEN, True)
@@ -493,15 +486,14 @@ def add_thanks_slide(prs):
     slide = prs.slides.add_slide(prs.slide_layouts[6])
     apply_background(slide)
 
-    add_rect(slide, Inches(0), Inches(0), SLIDE_W, SLIDE_H, DARK_GREEN)
-    add_rect(slide, Inches(0), Inches(0), Inches(4.15), SLIDE_H, GREEN)
-    add_rect(slide, Inches(4.15), Inches(0), Inches(2.05), Inches(3.75), MID_GREEN)
-    add_rect(slide, Inches(4.15), Inches(3.75), Inches(2.05), Inches(3.75), ORANGE)
-    add_logo(slide)
-    add_text(slide, Inches(6.8), Inches(2.35), Inches(5.3), Inches(0.85), "Спасибо за внимание!", 38, WHITE, True)
-    add_text(slide, Inches(6.85), Inches(3.35), Inches(4.95), Inches(0.55), "Готов ответить на вопросы", 22, WHITE)
-    add_text(slide, Inches(6.85), Inches(5.55), Inches(5.2), Inches(0.35), "Курсовая работа · Топонимы Санкт-Петербурга", 12, RGBColor(223, 237, 222))
-    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"10/{TOTAL_SLIDES}", 10, WHITE, align=PP_ALIGN.RIGHT)
+    add_rect(slide, Inches(0), Inches(0), SLIDE_W, Inches(0.22), LIGHT_ORANGE)
+    add_rect(slide, Inches(0), Inches(0.22), Inches(3.1), Inches(0.12), GREEN)
+    add_rect(slide, Inches(9.45), Inches(1.15), Inches(2.1), Inches(2.1), MID_GREEN, transparency=20)
+    add_rect(slide, Inches(10.55), Inches(4.4), Inches(1.55), Inches(1.55), LIGHT_ORANGE, transparency=10)
+    add_text(slide, Inches(1.0), Inches(2.45), Inches(8.4), Inches(0.85), "Спасибо за внимание!", 38, DARK_GREEN, True)
+    add_text(slide, Inches(1.05), Inches(3.45), Inches(7.2), Inches(0.55), "Готов ответить на вопросы", 22, BLACK)
+    add_text(slide, Inches(1.05), Inches(5.55), Inches(7.4), Inches(0.35), "Курсовая работа · Топонимы Санкт-Петербурга", 12, MUTED_TEXT)
+    add_text(slide, Inches(11.75), Inches(6.95), Inches(0.9), Inches(0.25), f"10/{TOTAL_SLIDES}", 10, MUTED_TEXT, align=PP_ALIGN.RIGHT)
 
 
 def build_presentation(output_paths=OUTPUT_PATHS):
